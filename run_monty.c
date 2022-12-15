@@ -78,7 +78,7 @@ void (*get_op_func(char *opcode))(stack_t**, unsigned int)
 		{"pop", _pop},
 		{"swap", _swap},
 		{"add", _add},
-		{"nop", _nop},
+		{"nop", nop},
 		{"sub", _sub},
 		{"div", _div},
 		{"mul", _mul},
