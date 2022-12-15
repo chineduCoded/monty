@@ -22,13 +22,11 @@ void _push(stack_t **stack, unsigned int line_number)
 		set_op_tok_error(malloc_error());
 		return;
 	}
-
 	if (op_toks[1] == NULL)
 	{
 		set_op_tok_error(no_int_error(line_number));
 		return;
 	}
-
 	for (i = 0; op_toks[1][i]; i++)
 	{
 		if (op_toks[1][i] == '-' && i == 0)
@@ -40,7 +38,6 @@ void _push(stack_t **stack, unsigned int line_number)
 		}
 	}
 	new->n = atoi(op_toks[1]);
-
 	if (check_mode(*stack) == STACK) /* STACK mode insert at front */
 	{
 		tmp = (*stack)->next;
