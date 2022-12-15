@@ -68,12 +68,16 @@ void _push(stack_t **stack, unsigned int line_number)
  */
 void _pall(stack_t **stack, unsigned int line_number)
 {
-	stack_t *tmp = (*stack)->next;
+	stack_t *h;
 
-	while (tmp)
+	h = *stack;
+	if (h == NULL)
+		return;
+
+	while (h)
 	{
-		printf("%d\n", tmp->n);
-		tmp = tmp->next;
+		printf("%d\n", h->n);
+		h = h->next;
 	}
 	(void)line_number;
 }
