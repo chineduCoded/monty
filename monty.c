@@ -1,53 +1,29 @@
 #include "monty.h"
-stack_t *head = NULL;
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+
+char **op_toks = NULL;
 
 /**
- * main - Entry point for Monty program
- * @ac: number of commandline arguments
- * @av: arry of arguments
- * Return:  Aalways 0.
+ * main - the entry point for Monty Interp
+ *
+ * @argc: the count of arguments passed to the program
+ * @argv: pointer to an array of char pointers to arguments
+ *
+ * Return: (EXIT_SUCCESS) on success (EXIT_FAILURE) on error
  */
-int main(int ac, char **av)
+int main(int argc, char **argv)
 {
-	if (ac < 2 || ac > 2)
-		err(1);
-	open_file(av[1]);
-	free_nodes();
-	return (0);
-}
+	FILE *script_fd = NULL;
+	int exit_code = EXIT_SUCCESS;
 
-/**
- * free_nodes - Frees nodes in the stack.
- */
-void free_nodes(void)
-{
-	stack_t *tmp;
-
-	if (head == NULL)
-		return;
-
-	while (head != NULL)
-	{
-		tmp = head;
-		head = head->next;
-		free(tmp);
-	}
-}
-
-/**
- * create_node - Creates a new node.
- * @n: number of node.
- * Return: Upon sucess a pointer to the node. Otherwise NULL.
- */
-stack_t *create_node(int n)
-{
-	stack_t *new;
-
-	new = malloc(sizeof(stack_t));
-	if (new == NULL)
-		err(4);
-	new->next = NULL;
-	new->prev = NULL;
-	new->n = n;
-	return (new);
+	if (argc != 2)
+		return (usage_error());
+	script_fd = fopen(argv[1], "r");
+	if (script_fd == NULL)
+		return (f_open_error(argv[1]));
+	exit_code = run_monty(script_fd);
+	fclose(script_fd);
+	return (exit_code);
 }
